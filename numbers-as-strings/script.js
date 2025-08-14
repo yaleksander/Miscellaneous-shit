@@ -1,9 +1,3 @@
-<!doctype html>
-<html>
-<body>
-<h3 id="out"></h3>
-<script>
-
 function gt(s1, s2)
 {
 	if (s1 == s2)
@@ -160,7 +154,3 @@ function pow(s, e)
 }
 
 document.getElementById("out").innerHTML = add("15", "-1000") + ", " + mult("-116", "2") + ", " + pow("-5", 3);
-
-</script>
-</body>
-</html>
