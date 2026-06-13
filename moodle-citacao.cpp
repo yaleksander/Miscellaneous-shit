@@ -1,11 +1,13 @@
 #include <iostream>
+#include <cstring>
 
 #define TAM 200
 
 using namespace std;
 
-void separa(char s1[], char s2[])
+int separa(char s0[], char s1[], char s2[])
 {
+    strcpy(s1, s0);
     int n = 0, j = 0;
     while (s1[n] != '\0')
         n++;
@@ -19,57 +21,65 @@ void separa(char s1[], char s2[])
             s2[j] = s2[j] - 'a' + 'A';
     }
     s2[j] = '\0';
+    return j;
 }
 
-void abrev(char str[], int k, bool espaco)
+void abrev(char s1[], char s2[], int j, int k, bool espaco)
 {
-    cout << str[k] << '.';
+    s2[j++] = s1[k];
+    s2[j++] = '.';
     if (espaco)
-        cout << ' ';
-    for (int i = k + 1; str[i] != '\0'; i++)
+        s2[j++] = ' ';
+    for (int i = k + 1; s1[i] != '\0'; i++)
     {
-        if (str[i] == ' ')
+        if (s1[i] == ' ')
         {
-            cout << str[i + 1] << '.';
+            s2[j++] = s1[i + 1];
+            s2[j++] = '.';
             if (espaco)
-                cout << ' ';
+                s2[j++] = ' ';
         }
     }
+    s2[j] = '\0';
 }
 
-void cite1(char str[], char sn[])
+void cite1(char s1[], char s2[])
 {
+    char nome[TAM], sobrenome[TAM];
+    separa(s1, nome, sobrenome);
     int i;
-    for (i = 0; str[i] != ' '; i++)
-        cout << str[i];
-    cout << ' ';
-    abrev(str, i + 1, true);
-    cout << sn << endl;
+    for (i = 0; nome[i] != ' '; i++)
+        s2[i] = nome[i];
+    s2[i++] = ' ';
+    abrev(nome, s2, i, i, true);
+    strcat(s2, sobrenome);
 }
 
-void cite2(char str[], char sn[])
+void cite2(char s1[], char s2[])
 {
-    cout << sn << ", ";
-    for (int i = 0; str[i] != '\0'; i++)
-        cout << str[i];
-    cout << endl;
+    char nome[TAM];
+    separa(s1, nome, s2);
+    strcat(s2, ", ");
+    strcat(s2, nome);
 }
 
-void cite3(char str[], char sn[])
+void cite3(char s1[], char s2[])
 {
-    cout << sn << ", ";
-    abrev(str, 0, false);
-    cout << endl;
+    char nome[TAM];
+    int j = separa(s1, nome, s2) + 2;
+    strcat(s2, ", ");
+    abrev(nome, s2, j, 0, false);
 }
 
 int main()
 {
-    char str[TAM], sn[TAM];
-    cin.getline(str, TAM);
-    separa(str, sn);
-    cite1(str, sn);
-    cite2(str, sn);
-    cite3(str, sn);
+    char s1[TAM], s2[TAM];
+    cin.getline(s1, TAM);
+    cite1(s1, s2);
+    cout << s2 << endl;
+    cite2(s1, s2);
+    cout << s2 << endl;
+    cite3(s1, s2);
+    cout << s2 << endl;
     return 0;
 }
-
